@@ -1,0 +1,11 @@
+@import "../../../node_modules/leaflet/dist/leaflet.css";
+
+.geo-map {
+  width: 100%;
+  display: flex;
+  alignItems: stretch;
+
+  .leaflet-container {
+    flex: 1;
+  }
+}

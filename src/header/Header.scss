@@ -1,0 +1,21 @@
+@import "config.scss";
+
+.Header {
+  flex: 0;
+  display: flex;
+  min-height: 2.5rem;
+  padding: .25rem;
+  align-items: stretch;
+  border-bottom: solid $primary 5px;
+
+  .Header-logo,
+  .Header-title {
+    flex: 1;
+  }
+
+  .Header-logo {
+    background: url(../../frontend/assets/images/logo.png) no-repeat;
+    background-size: contain;
+    width: 8rem;
+  }
+}

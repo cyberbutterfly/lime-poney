@@ -1,0 +1,41 @@
+@import "config.scss";
+
+.Navigation {
+  flex: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  a {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    padding: .25rem;
+    margin-right: .5rem;
+    border-radius: 10px;
+    border: solid 2px silver;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.active {
+      background-color: $light-grey;
+
+      .logo {
+        filter: contrast(64%);
+      }
+    }
+
+    .icon, .logo {
+      flex: 1;
+      fill: $primary;
+    }
+
+    .logo {
+      background: url(../../../lime-poney/assets/images/icon.png) no-repeat;
+      background-size: contain;
+    }
+  }
+
+}

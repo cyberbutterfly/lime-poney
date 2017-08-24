@@ -1,0 +1,57 @@
+{
+  "name": "@2pg/lime-poney",
+  "version": "0.7.0",
+  "author": "Pierre Chausalet <pierre.chaussalet@twoporeguys.com>",
+  "description": "2PG react components library",
+  "homepage": "http://www.twoporeguys.com",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "devDependencies": {
+    "@types/leaflet": "^1.2.0",
+    "@types/plotly.js": "^1.28.4",
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "^15.5.4",
+    "@types/react-leaflet": "^1.1.4",
+    "ts-loader": "^2.3.4",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
+  },
+  "dependencies": {
+    "leaflet": "^1.2.0",
+    "lodash": "^4.17.4",
+    "plotly.js": "^1.30.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-leaflet": "^1.6.4",
+    "rxjs": "^5.4.3"
+  },
+  "jest": {
+    "testRegex": "(/tests/.*|\\.Test)\\.(tsx)$",
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/tests/__mocks__/"
+    ],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/src",
+      "<rootDir>/node_modules/chai-enzyme",
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-addons-test-utils"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
+      "\\.(css|less|scss)$": "<rootDir>/tests/__mocks__/styleMock.js"
+    }
+  }
+}
