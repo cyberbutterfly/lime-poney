@@ -2,40 +2,25 @@ const packageInfo = require('./package.json');
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
-const GeneratePackageJsonPlugin = require('generate-package-json-webpack-plugin');
 
-const basePackageValues = {
-    "name": "lime-poney",
-    "version": packageInfo.version,
-    "main": "./index.js",
-};
-const versionsPackageFilename = __dirname + "/package.json";
-const root = './src/lime-poney';
+const root = './src';
 
 const entries = _.fromPairs(_.map(
-    fs.readdirSync(root),
-    (mod) => [path.basename(mod), path.resolve(path.join(root, mod, 'index.ts'))]
+    _.filter(fs.readdirSync(root), function(name) {return !_.endsWith(name, '.ts')}),
+    (mod) => [path.basename(mod) + '/index', path.resolve(path.join(root, mod, 'index.ts'))]
 ));
-entries['index'] = _.values(entries);
+entries['index'] = path.resolve(path.join(root, 'index.ts'));
 
 module.exports = {
     entry: entries,
     output: {
-        path: path.join(__dirname, './dist/' + basePackageValues.name),
+        path: path.join(__dirname, './dist'),
         filename: '[name].js',
-        library: [basePackageValues.name + '/[name]'],
+        library: [packageInfo.name + '[name]'],
         libraryTarget: 'umd',
-        publicPath: '/dist/lib'
+        publicPath: '/dist'
     },
-    externals: [
-        'react',
-        'react-dom',
-        'lodash',
-        'plotly.js',
-        '@reactivex/rxjs',
-        'react-leaflet',
-        'leaflet',
-    ],
+    externals: _.keys(packageInfo.dependencies),
     devtool: 'source-map',
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json'],
@@ -46,9 +31,9 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: [
                     {
-                        loader: 'awesome-typescript-loader',
+                        loader: 'ts-loader',
                         options: {
-                            configFileName: './tsconfig.lime-poney.json'
+                            configFile: './tsconfig.json'
                         }
                     }
                 ]
@@ -75,7 +60,7 @@ module.exports = {
                         options: {
                             includePaths: [
                                 path.resolve('./node_modules'),
-                                path.resolve('./src/frontend/assets/style')
+                                path.resolve('./assets/style')
                             ]
                         }
                     },
@@ -118,7 +103,4 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new GeneratePackageJsonPlugin(basePackageValues, versionsPackageFilename)
-    ],
 };

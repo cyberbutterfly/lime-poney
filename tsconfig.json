@@ -1,18 +1,17 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/lime-poney/",
+    "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "es5",
-    "declaration": true,
-    "declarationDir": "./dist/lime-poney/d.ts/",
     "jsx": "react",
-    "types": [
-    ],
+    "types": [],
     "typeRoots": [
       "node_modules/@types"
     ],
+    "declaration": true,
+    "declarationDir": "./",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "lib": [
@@ -21,5 +20,14 @@
     ],
     "skipLibCheck": true
   },
-  "include": []
+  "include": [
+    "src/*.ts",
+    "src/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "silent": true,
+    "useCache": true
+  }
 }

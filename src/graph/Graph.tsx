@@ -16,7 +16,8 @@ export interface GraphProps {
     xRangeMode?: 'normal'|'tozero'|'nonnegative';
     yRangeMode?: 'normal'|'tozero'|'nonnegative';
 }
-interface GraphState {
+
+export interface GraphState {
     data: Plotly.Data[];
 }
 

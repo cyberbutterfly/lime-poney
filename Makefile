@@ -8,7 +8,6 @@ else
 BUILD_TYPE = demo
 endif
 
-TARGET = "*"
 export PATH := ./node_modules/.bin:${PATH}
 
 package: build _package
@@ -25,6 +24,8 @@ deps: _deps
 
 stats: _stats
 
+publish: build _version _package _publish
+
 # Empty "variable setting" targets
 dev: ;
 demo: ;
@@ -39,22 +40,25 @@ _deps:
 
 _serve: _deps
 _serve:
-	WEBPACK_BUNDLE=$(TARGET) webpack-dev-server --progress --inline ${PUBLIC}
+	webpack-dev-server --progress --inline ${PUBLIC}
 
 _test: _deps
 _test:
 	mocha --opts mocha.opts
 
 _build: _deps
-	WEBPACK_BUNDLE=$(TARGET) BUILD_TYPE=$(BUILD_TYPE) webpack --progress --profile $(PROD_FLAG)
+	BUILD_TYPE=$(BUILD_TYPE) webpack --progress --profile $(PROD_FLAG)
 
 _package: _deps
 	mkdir package
-	cd package; npm pack ../
+	cp -rf ./assets/ ./src/ ./package.json yarn.lock .npmignore ./dist/
+	cd package; npm pack ../dist/
 
 _version: _deps
 	yarn version
 
-_stats:
-	WEBPACK_BUNDLE=$(TARGET) BUILD_TYPE=$(BUILD_TYPE) webpack  $(PROD_FLAG) --json > stats.json
+_publish: _deps
+	npm publish ./dist/
 
+_stats:
+	BUILD_TYPE=$(BUILD_TYPE) webpack  $(PROD_FLAG) --json > stats.json

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Observable, Subscription} from '@reactivex/rxjs';
+import {Observable, Subscription} from 'rxjs/Rx';
 import * as _ from 'lodash';
 import * as Plotly from 'plotly.js';
 
@@ -24,7 +24,7 @@ export interface HighFrequencyGraphProps {
     thresholds?: number[];
 }
 
-interface HighFrequencyGraphState {
+export interface HighFrequencyGraphState {
     width: number;
     height: number;
     datasources: Datasource[];

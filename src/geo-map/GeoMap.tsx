@@ -17,12 +17,12 @@ declare let require: any;
     });
 })();
 
-interface GeoPosition {
+export interface GeoPosition {
     lat: number;
     lng: number;
 }
 
-interface GeoMarker {
+export interface GeoMarker {
     position: GeoPosition;
     draggable?: boolean;
 }
@@ -34,7 +34,7 @@ export interface MapProps {
     style?: CSSProperties;
 }
 
-interface MapState {
+export interface MapState {
 }
 
 export class GeoMap extends React.Component<MapProps, MapState> {
