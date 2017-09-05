@@ -4,8 +4,6 @@ import './List.scss';
 
 export interface ListProps {
     isPassive?: boolean;
-    export interface ListProps {
-    isPassive?: boolean;
     className?: string;
     style?: React.CSSProperties;
     children?: JSX.Element|JSX.Element[]|string|boolean[];

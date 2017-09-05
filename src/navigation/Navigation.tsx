@@ -21,8 +21,8 @@ export const Navigation = (props: NavigationProps) => (
     <div className={'Navigation' + (props.className || '')}>
         {
             _.map(props.entries,
-                (entry: NavigationEntry) => (
-                    <NavLink to={entry.to} activeClassName='active' exact={entry.exact}>
+                (entry: NavigationEntry, index: number) => (
+                    <NavLink key={'nav-' + index} to={entry.to} activeClassName='active' exact={entry.exact}>
                         {entry.icon ? <Icon icon={entry.icon}/> : ''}
                         {entry.label || ''}
                     </NavLink>
