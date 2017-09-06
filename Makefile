@@ -44,7 +44,7 @@ _serve:
 
 _test: _deps
 _test:
-	mocha --opts mocha.opts
+	jest
 
 _build: _deps
 	BUILD_TYPE=$(BUILD_TYPE) webpack --progress --profile $(PROD_FLAG)

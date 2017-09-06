@@ -12,6 +12,8 @@
     "@types/react": "^16.0.5",
     "@types/react-dom": "^15.5.4",
     "@types/react-leaflet": "^1.1.4",
+    "jest": "^21.0.1",
+    "ts-jest": "^21.0.0",
     "ts-loader": "^2.3.4",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
@@ -26,7 +28,7 @@
     "rxjs": "^5.4.3"
   },
   "jest": {
-    "testRegex": "(/tests/.*|\\.Test)\\.(tsx)$",
+    "testRegex": "(/_tests_/.*|\\.Test)\\.(tsx)$",
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
@@ -40,7 +42,7 @@
       "json"
     ],
     "testPathIgnorePatterns": [
-      "<rootDir>/tests/__mocks__/"
+      "<rootDir>/_tests_/__mocks__/"
     ],
     "unmockedModulePathPatterns": [
       "<rootDir>/src",
@@ -50,8 +52,8 @@
       "<rootDir>/node_modules/react-addons-test-utils"
     ],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
-      "\\.(css|less|scss)$": "<rootDir>/tests/__mocks__/styleMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/_tests_/__mocks__/fileMock.js",
+      "\\.(css|less|scss)$": "<rootDir>/_tests_/__mocks__/styleMock.js"
     }
   }
 }

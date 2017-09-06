@@ -49,8 +49,7 @@ export class CascadingList extends React.PureComponent<CascadingListProps, {}> {
     }
 
     private handleEntrySelectionAtLevel(level: number): (entry: string) => void {
-        const columns = this.props.columns;
-        const path = this.props.path;
+        const {columns, path} = this.props;
         return (entry: string) => {
             const newPath = _.concat(_.take(path, level), [
                 (level === columns.length - 1 && path.length === columns.length) ?
