@@ -1,3 +1,4 @@
+/*
 import * as React from 'react';
 
 import './List.scss';
@@ -7,6 +8,7 @@ export interface ListProps {
     className?: string;
     style?: React.CSSProperties;
     children?: JSX.Element|JSX.Element[]|string|boolean[];
+    isScrollable?: boolean;
 }
 
 export class List extends React.Component<ListProps, {}> {
@@ -19,7 +21,8 @@ export class List extends React.Component<ListProps, {}> {
             <ul
                 className={
                     (this.props.className || '') +
-                    (this.props.isPassive ? 'is-passive' : '') +
+                    (this.props.isPassive ? ' is-passive' : '') +
+                    (this.props.isScrollable ? ' is-scrollable' : '') +
                     ' list'
                 }
             >
@@ -30,3 +33,8 @@ export class List extends React.Component<ListProps, {}> {
 }
 
 export default List;
+*/
+
+// import 'onsenui/css/onsenui.css';
+// import 'onsenui/css/onsen-css-components.css';
+export {List} from 'react-onsenui';

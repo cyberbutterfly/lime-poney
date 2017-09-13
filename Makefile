@@ -26,6 +26,10 @@ stats: _stats
 
 publish: build _version _package _publish
 
+link: build _version _package _link
+
+refresh: _build _copy_assets
+
 # Empty "variable setting" targets
 dev: ;
 demo: ;
@@ -49,9 +53,11 @@ _test:
 _build: _deps
 	BUILD_TYPE=$(BUILD_TYPE) webpack --progress --profile $(PROD_FLAG)
 
-_package: _deps
-	mkdir package
+_copy_assets:
 	cp -rf ./assets/ ./src/ ./package.json yarn.lock .npmignore ./dist/
+
+_package: _deps _copy_assets
+	mkdir package
 	cd package; npm pack ../dist/
 
 _version: _deps
@@ -59,6 +65,10 @@ _version: _deps
 
 _publish: _deps
 	npm publish ./dist/
+
+_link: _deps
+	cd ./dist/
+	npm link
 
 _stats:
 	BUILD_TYPE=$(BUILD_TYPE) webpack  $(PROD_FLAG) --json > stats.json

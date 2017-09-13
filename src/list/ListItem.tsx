@@ -1,3 +1,4 @@
+/*
 import * as _ from 'lodash';
 import * as React from 'react';
 import {Icon} from '../icon/Icon';
@@ -52,3 +53,8 @@ export interface ListItemProps {
 }
 
 export default ListItem;
+*/
+
+// import 'onsenui/css/onsenui.css';
+// import 'onsenui/css/onsen-css-components.css';
+export {ListItem} from 'react-onsenui';

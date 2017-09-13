@@ -2,6 +2,8 @@ const packageInfo = require('./package.json');
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+
 
 const root = './src';
 
@@ -14,7 +16,7 @@ entries['index'] = path.resolve(path.join(root, 'index.ts'));
 module.exports = {
     entry: entries,
     output: {
-        path: path.join(__dirname, './dist'),
+        path: path.join(__dirname, 'dist/'),
         filename: '[name].js',
         library: [packageInfo.name + '[name]'],
         libraryTarget: 'umd',
@@ -77,8 +79,9 @@ module.exports = {
                     }
                 ],
             },
+/*
             {
-                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                test: /\.(woff(2)?|eot|ttf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 use: [
                     {
                         loader: 'url-loader',
@@ -89,10 +92,29 @@ module.exports = {
                     }
                 ]
             },
+*/
             {
-                test: /\.(ttf|eot|jpg|png|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                test: /\.(jpg|png|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 use: [
-                    { loader: 'file-loader' }
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '/assets/[name].[ext]',
+                            publicPath: '@2pg/lime-poney'
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '/assets/[name].[ext]',
+                            publicPath: '@2pg/lime-poney'
+                        }
+                    }
                 ]
             },
             {
@@ -103,4 +125,7 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new SpriteLoaderPlugin()
+    ]
 };

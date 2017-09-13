@@ -1,21 +1,33 @@
 @import "config.scss";
 
 .Header {
-  flex: 0;
   display: flex;
-  min-height: 2.5rem;
+  min-height: 3.5rem;
   padding: .25rem;
   align-items: stretch;
   border-bottom: solid $primary 5px;
 
-  .Header-logo,
-  .Header-title {
+  .Header-logo {
     flex: 1;
   }
 
   .Header-logo {
-    background: url(../../assets/images/logo.png) no-repeat;
+    background: url(../../assets/images/logo.png) no-repeat 0 center;
     background-size: contain;
-    width: 8rem;
+    min-width: 6rem;
+  }
+
+  .Header-title {
+    font-size: xx-large;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .Header-sub-title {
+      font-size: small;
+      text-transform: uppercase;
+      text-align: right;
+    }
   }
 }

@@ -1,3 +1,4 @@
+/*
 import * as React from 'react';
 import {CSSProperties} from 'react';
 
@@ -20,3 +21,8 @@ export const Icon = (props: IconProps) => (
         <use xlinkHref={'#' + props.icon}/>
     </svg>
 );
+*/
+
+// import 'onsenui/css/onsenui.css';
+// import 'onsenui/css/onsen-css-components.css';
+export {Icon} from 'react-onsenui';
