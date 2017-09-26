@@ -26,6 +26,9 @@ module.exports = {
     devtool: 'source-map',
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json'],
+        alias: {
+            'react-native': 'react-native-web',
+        },
     },
     module: {
         rules: [
@@ -79,20 +82,6 @@ module.exports = {
                     }
                 ],
             },
-/*
-            {
-                test: /\.(woff(2)?|eot|ttf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 10000,
-                            mimetype: 'application/font-woff'
-                        }
-                    }
-                ]
-            },
-*/
             {
                 test: /\.(jpg|png|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 use: [
@@ -110,12 +99,17 @@ module.exports = {
                 use: [
                     {
                         loader: 'file-loader',
+/*
                         options: {
                             name: '/assets/[name].[ext]',
-                            publicPath: '@2pg/lime-poney'
+                            publicPath: '@2pg/lime-poney',
                         }
+*/
                     }
-                ]
+                ],
+/*
+                include: path.resolve(__dirname, "node_modules/react-native-vector-icons"),
+*/
             },
             {
                 test: /\.svg/,

@@ -1,11 +1,11 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import {MouseEvent} from 'react';
-import {Label} from '../label/Label';
-import {List, ListItem, ListHeader} from '../list';
+import {Label} from '../label';
+import {List} from '../list';
+import {Switch} from '../form';
+
 import './CascadingList.scss';
-import {Icon} from '../icon/Icon';
-import {Checkbox} from '../form/index';
+import {View, TouchableHighlight, StyleSheet, GestureResponderEvent} from 'react-native';
 
 export interface CascadingListValue {
     label: string;
@@ -13,8 +13,7 @@ export interface CascadingListValue {
 }
 
 export interface CascadingListProps {
-    className?: string;
-    columns: Array<string[]|CascadingListValue[]>;
+    columns: CascadingListValue[][];
     path: any[][];
     onPathChange: (newPath: any[][]) => void;
     headers?: string[];
@@ -24,66 +23,76 @@ export interface CascadingListProps {
 export class CascadingList extends React.PureComponent<CascadingListProps, {}> {
     public constructor(props: CascadingListProps) {
         super(props);
+
+        this.renderCascadingListEntry = this.renderCascadingListEntry.bind(this);
     }
 
     public render() {
-        const {className, columns, headers} = this.props;
+        const {columns} = this.props;
         return (
-            <div className={'cascading-list ' + (className || '')}>
-                {_.map(columns,
-                    (entries: string[]|CascadingListValue[], columnIndex: number) => {
-                        return (
-                            <List
-                                key={'c-' + columnIndex}
-                                dataSource={entries}
-                                renderRow={this.getRowRendererAtIndex(columnIndex)}
-                                renderHeader={() => headers && headers.length > columnIndex ?
-                                    <ListHeader>{headers[columnIndex]}</ListHeader> : null
-                                }
-                            />
-                        );
-                    },
-                )}
-            </div>
+            <View style={style.wrapper}>
+                {_.map(columns, this.renderCascadingListEntry)}
+            </View>
         );
     }
 
-    private getRowRendererAtIndex(columnIndex: number): (row: string|CascadingListValue, index: number) => JSX.Element {
-        return (row: string|CascadingListValue, index: number): JSX.Element => {
-            const isSelected = this.isEntrySelectedAtLevel(this.getRowValue(row), columnIndex);
-            return (
-                <ListItem
-                    key={index}
-                    tappable={true}
-                    onClick={this.getClickHandler(columnIndex, index)}
-                    modifier={
-                        (columnIndex < this.props.columns.length -1 ? ' chevron' : '') +
-                        (isSelected ? ' selected' : '')
-                    }
-                >
-                    <div className={'left'}>
-                        {
-                            this.isMultipleSelectionAllowedAtLevel(columnIndex) ?
-                                <Checkbox checked={isSelected}/> : ''
-                        }
-                    </div>
-                    <Label value={this.getRowLabel(row)}/>
-                </ListItem>
-            )
-        }
+    private renderCascadingListEntry(entries: CascadingListValue[], columnIndex: number) {
+        const {headers} = this.props;
+        const title = headers && headers.length > columnIndex ? headers[columnIndex] : null;
+        return (
+            <View key={'c-' + columnIndex} style={style.columnWrapper}>
+                {
+                    title  && (
+                        <View style={style.columnTitle}>
+                            <Label value={_.upperCase(title)}/>
+                        </View>
+                    )
+                }
+                <List
+                    entries={entries}
+                    renderItem={this.getRowRenderer(columnIndex)}
+                />
+            </View>
+        )
     }
 
-    private getClickHandler(columIndex: number, rowIndex: number): (event: MouseEvent<ListItem>) => void {
-        const {columns, path} = this.props;
+    private getRowRenderer(columnIndex: number): (entry: CascadingListValue, rowIndex: number) => JSX.Element {
+        const isMultipleSelectable = this.isMultipleSelectionAllowedAtLevel(columnIndex);
+        return (entry: CascadingListValue, rowIndex: number) => {
+            const isSelected = this.isEntrySelectedAtLevel(entry.value, columnIndex);
+            return (
+                <TouchableHighlight
+                    key={'r-' + columnIndex + '-' + rowIndex}
+                    onPress={this.getClickHandler(columnIndex, rowIndex)}
+                    underlayColor={'rgba(0, 0, 0, .25)'}
+                >
+                    <View
+                        style={[
+                            style.entry,
+                            isSelected ? style.entrySelected : null,
+                            isMultipleSelectable ? style.entryHorizontal : null
+                        ]}
+                    >
+                        {isMultipleSelectable && <Switch value={isSelected} style={style.switch}/>}
+                        <Label value={entry.label} style={style.entryText}/>
+                    </View>
+                </TouchableHighlight>
+            )
+        };
+    }
+
+    private getClickHandler(columIndex: number, rowIndex: number): (event: GestureResponderEvent) => void {
+        const {columns, path, multipleSelection} = this.props;
         const value = this.getRowValue(columns[columIndex][rowIndex]);
         return () => {
-            const newPath = _.concat(_.take(path, columIndex), [
-                (columIndex === columns.length - 1 && path.length === columns.length) ?
+            const commonPart = _.take(path, columIndex);
+            const newPath = _.concat(commonPart, [
+                multipleSelection === false || columIndex !== columns.length - 1 || path.length !== columns.length ?
+                    [value] :
                     _.includes(_.last(path), value) ?
                         _.reject(_.last(path), (oldValue: any) => oldValue === value) :
-                        _.concat(_.last(path), value) :
-                    [value],
-            ]);
+                        _.concat(_.last(path), value),
+                ]);
             this.props.onPathChange(newPath);
         };
     }
@@ -98,14 +107,48 @@ export class CascadingList extends React.PureComponent<CascadingListProps, {}> {
     }
 
     private getRowValue(row: string|CascadingListValue): any {
-        debugger;
         return typeof row === 'object' ? row.value : row;
-    }
-
-    private getRowLabel(row: string|CascadingListValue): any {
-        debugger;
-        return typeof row === 'object' ? row.label : row;
     }
 }
 
-export default CascadingList;
+const style = StyleSheet.create({
+    wrapper: {
+        flex: 1,
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderBottomColor: '#dfdfdf',
+        borderStyle: 'solid'
+    },
+    columnWrapper: {
+        flex: 1
+    },
+    columnTitle: {
+        backgroundColor: '#dfdfdf',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: '75%'
+    },
+    entry: {
+        justifyContent: 'center',
+        paddingLeft: 14
+    },
+    entrySelected: {
+        backgroundColor: '#efefef'
+    },
+    entryHorizontal: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    switch: {
+        marginRight: 14
+    },
+    entryText: {
+        flex: 1,
+        padding: 14,
+        paddingLeft: 0,
+        borderBottomWidth: 1,
+        borderBottomColor: '#dfdfdf',
+        borderStyle: 'solid'
+    }
+});

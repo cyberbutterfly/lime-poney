@@ -46,8 +46,9 @@ export class PlotlyGraph extends React.PureComponent<PlotlyGraphProps, PlotlyGra
     }
 
     private refreshGraph() {
-        const width = Math.floor(this.element.parentElement.getBoundingClientRect().width - 8) + 'px';
-        const height = Math.floor(this.element.parentElement.getBoundingClientRect().height - 8) + 'px';
+        const parentBoundingClientRect = this.element.parentElement.getBoundingClientRect();
+        const width = Math.floor(parentBoundingClientRect.width - 8) + 'px';
+        const height = Math.floor(parentBoundingClientRect.height - 8) + 'px';
         this.drawGraph(width, height);
     }
 

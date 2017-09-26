@@ -23,7 +23,7 @@ export const Navigation = (props: NavigationProps) => (
             _.map(props.entries,
                 (entry: NavigationEntry, index: number) => (
                     <NavLink key={'nav-' + index} to={entry.to} activeClassName='active' exact={entry.exact}>
-                        {entry.icon ? <Icon icon={entry.icon}/> : ''}
+                        {entry.icon ? <Icon name={entry.icon}/> : ''}
                         {entry.label || ''}
                     </NavLink>
                 )

@@ -1,28 +1,20 @@
-/*
 import * as React from 'react';
-import {CSSProperties} from 'react';
+import {IconProps} from 'react-native-vector-icons/Icon';
 
-import './Icon.scss';
-import './SvgIconLoader';
+const IconJS = require('react-native-vector-icons/dist/FontAwesome').default;
+const iconFont = require('react-native-vector-icons/Fonts/FontAwesome.ttf');
 
-export interface IconProps {
-    icon: string;
-    className?: string;
-    onClick?: () => void;
-    style?: CSSProperties;
-}
+const iconFontStyles = `@font-face {
+  src: url(${iconFont});
+  font-family: FontAwesome;
+}`;
+
+const style = document.createElement('style');
+style.type = 'text/css';
+style.appendChild(document.createTextNode(iconFontStyles));
+
+document.head.appendChild(style);
 
 export const Icon = (props: IconProps) => (
-    <svg
-        className={'icon ' + props.icon + ' ' + props.className}
-        onClick={props.onClick}
-        style={props.style || {}}
-    >
-        <use xlinkHref={'#' + props.icon}/>
-    </svg>
+    <IconJS {...props}/>
 );
-*/
-
-// import 'onsenui/css/onsenui.css';
-// import 'onsenui/css/onsen-css-components.css';
-export {Icon} from 'react-onsenui';

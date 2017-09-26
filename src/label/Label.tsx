@@ -1,11 +1,9 @@
 import * as React from 'react';
+import {Text, TextStyle} from 'react-native';
 
 export interface LabelProps {
     value: string;
-    className?: string;
-    style?: React.CSSProperties;
+    style?: TextStyle;
 }
 
-export const Label = (props: LabelProps) => (
-    <span className={'label ' + (props.className || '')} style={props.style}>{props.value}</span>
-);
+export const Label = (props: LabelProps) => <Text style={props.style}>{props.value}</Text>;

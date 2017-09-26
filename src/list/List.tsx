@@ -1,40 +1,21 @@
-/*
+import * as _ from 'lodash';
 import * as React from 'react';
+import {ScrollView, View} from 'react-native';
 
-import './List.scss';
-
-export interface ListProps {
-    isPassive?: boolean;
-    className?: string;
-    style?: React.CSSProperties;
-    children?: JSX.Element|JSX.Element[]|string|boolean[];
-    isScrollable?: boolean;
+export interface ListProps<T> {
+    entries: T[];
+    renderItem: (item: T, index: number) => JSX.Element;
 }
 
-export class List extends React.Component<ListProps, {}> {
-    public constructor(props: ListProps) {
-        super(props);
-    }
-
-    public render() {
-        return (
-            <ul
-                className={
-                    (this.props.className || '') +
-                    (this.props.isPassive ? ' is-passive' : '') +
-                    (this.props.isScrollable ? ' is-scrollable' : '') +
-                    ' list'
-                }
-            >
-                {this.props.children}
-            </ul>
-        );
-    }
-}
-
-export default List;
-*/
-
-// import 'onsenui/css/onsenui.css';
-// import 'onsenui/css/onsen-css-components.css';
-export {List} from 'react-onsenui';
+export const List = <T extends {}>(props: ListProps<T>) => (
+    <ScrollView style={{flex: 1}}>
+        {
+            _.map(
+                props.entries,
+                (entry: T, index: number) => (
+                    <View key={'e-' + index}>{props.renderItem(entry, index)}</View>
+                ),
+            )
+        }
+    </ScrollView>
+);
