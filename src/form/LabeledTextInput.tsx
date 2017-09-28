@@ -9,20 +9,29 @@ export interface LabeledTextInputProps extends TextInputProperties {
 
 export const LabeledTextInput = (props: LabeledTextInputProps) => {
     const {label, stacked, style, ...textInputProps} = props;
-    const computedStyle = [];
+    const computedStyle = [styles.default];
     if (!stacked) {
         computedStyle.push(styles.horizontal);
     }
     return (
         <View style={computedStyle}>
             <Label value={label}/>
-            <TextInput style={[{flex: 1, marginLeft: 16}, style]} {...textInputProps}/>
+            <TextInput style={[styles.textInput, style]} {...textInputProps}/>
         </View>
     )
 };
 
 const styles = StyleSheet.create({
+    default: {
+        margin: 1,
+    },
     horizontal: {
         flexDirection: 'row'
-    }
+    },
+    textInput: {
+        flex: 1,
+        marginLeft: 16,
+        borderWidth: 1,
+        borderStyle: 'solid',
+    },
 });
