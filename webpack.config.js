@@ -38,7 +38,7 @@ module.exports = {
                     {
                         loader: 'ts-loader',
                         options: {
-                            configFile: './tsconfig.json'
+                            configFile: 'tsconfig.json'
                         }
                     }
                 ]
@@ -98,18 +98,9 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 use: [
                     {
-                        loader: 'file-loader',
-/*
-                        options: {
-                            name: '/assets/[name].[ext]',
-                            publicPath: '@2pg/lime-poney',
-                        }
-*/
+                        loader: 'url-loader',
                     }
                 ],
-/*
-                include: path.resolve(__dirname, "node_modules/react-native-vector-icons"),
-*/
             },
             {
                 test: /\.svg/,

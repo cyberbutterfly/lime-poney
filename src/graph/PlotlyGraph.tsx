@@ -12,6 +12,7 @@ export interface PlotlyGraphProps {
     config?: Partial<Plotly.Config>;
     graphName?: string;
     uniqueValue?: any;
+    areControlsHidden?: boolean;
 }
 
 export interface PlotlyGraphState {
@@ -64,20 +65,24 @@ export class PlotlyGraph extends React.PureComponent<PlotlyGraphProps, PlotlyGra
                 className={'PlotlyGraphWrapper'}
                 style={{flex: 1, display: 'flex', alignItems: 'center', maxWidth: '100%'}}
             >
-                <div className={'PlotlyGraphControls'} style={{paddingLeft: '1rem'}}>
-                    <View style={{marginBottom: 1}}>
-                        <Button title={<Icon name={'search-plus'}/> as any} onPress={this.zoomIn}/>
-                    </View>
-                    <View style={{marginBottom: 1}}>
-                        <Button title={<Icon name={'search-minus'}/> as any} onPress={this.zoomOut}/>
-                    </View>
-                    <View style={{marginBottom: 1}}>
-                        <Button title={'1:1'} onPress={this.restoreZoom}/>
-                    </View>
-                    <View style={{marginBottom: 1}}>
-                        <Button title={<Icon name={'download'}/> as any} onPress={this.download}/>
-                    </View>
-                </div>
+                {
+                    !this.props.areControlsHidden && (
+                        <div className={'PlotlyGraphControls'} style={{paddingLeft: '1rem'}}>
+                            <View style={{marginBottom: 1}}>
+                                <Button title={<Icon name={'search-plus'}/> as any} onPress={this.zoomIn}/>
+                            </View>
+                            <View style={{marginBottom: 1}}>
+                                <Button title={<Icon name={'search-minus'}/> as any} onPress={this.zoomOut}/>
+                            </View>
+                            <View style={{marginBottom: 1}}>
+                                <Button title={'1:1'} onPress={this.restoreZoom}/>
+                            </View>
+                            <View style={{marginBottom: 1}}>
+                                <Button title={<Icon name={'download'}/> as any} onPress={this.download}/>
+                            </View>
+                        </div>
+                    )
+                }
                 <div
                     className={'PlotlyGraph ' + (this.props.className || '')}
                     ref={(me: HTMLDivElement) => this.element = me}
