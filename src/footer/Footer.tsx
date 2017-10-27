@@ -1,6 +1,10 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import {StyleSheet, TextStyle, TouchableHighlight, View, ViewStyle} from 'react-native';
+import {
+    Image,
+    ImageRequireSource, ImageURISource, StyleSheet, TextStyle, TouchableHighlight, View,
+    ViewStyle,
+} from 'react-native';
 import {Label} from '../label/Label';
 import {Icon} from '../icon/Icon';
 import {Theme} from '../theme/Theme';
@@ -14,6 +18,7 @@ export interface FooterProps {
 
 export interface Action {
     icon?: string;
+    image?: ImageURISource | ImageURISource[] | ImageRequireSource;
     text?: string;
     isActive?: boolean;
     onPress?: () => void;
@@ -30,6 +35,7 @@ export class Footer extends React.Component<FooterProps, {}> {
         actionText: TextStyle,
         actionIcon: TextStyle,
         link: TextStyle,
+        active: TextStyle,
     };
 
     public constructor(props: FooterProps) {
@@ -79,13 +85,17 @@ export class Footer extends React.Component<FooterProps, {}> {
                 display: 'flex',
                 textDecorationLine: 'none',
                 borderWidth: 0
-            }
+            },
+            active: {
+                opacity: .75,
+            },
         };
     }
 
     public render() {
         const {actions, actionButton} = this.props;
         let styles = this.styles;
+        const isActionButtonActive = _.startsWith(location.hash, '#' + actionButton.target);
         return (
             <View style={styles.footer}>
                 {
@@ -102,6 +112,15 @@ export class Footer extends React.Component<FooterProps, {}> {
                                             {actionButton.icon && (
                                                 <Icon
                                                     name={actionButton.icon}
+                                                    style={StyleSheet.flatten([
+                                                        styles.actionIcon,
+                                                        styles.actionButtonIcon,
+                                                    ])}
+                                                />
+                                            )}
+                                            {actionButton.image && (
+                                                <Image
+                                                    source={actionButton.image}
                                                     style={[styles.actionIcon, styles.actionButtonIcon]}
                                                 />
                                             )}
@@ -119,6 +138,12 @@ export class Footer extends React.Component<FooterProps, {}> {
                                                 style={[styles.actionIcon, styles.actionButtonIcon]}
                                             />
                                         )}
+                                        {actionButton.image && (
+                                            <Image
+                                                source={actionButton.image}
+                                                style={[styles.actionIcon, styles.actionButtonIcon]}
+                                            />
+                                        )}
                                     </View>
                                 </TouchableHighlight>
                             </View>
@@ -126,19 +151,41 @@ export class Footer extends React.Component<FooterProps, {}> {
                 }
                 <View style={styles.actionBar}>{
                     _.map(actions, (action: Action, index: number) => {
+                        let isActive = _.startsWith(location.hash, '#' + action.target);
                         return action.target ? (
                             <NavLink
                                 key={'a-' + index}
                                 to={action.target}
                                 style={StyleSheet.flatten([this.styles.action, styles.link])}
-                                isActive={() => location.hash === '#' + action.target}
+                                isActive={() => isActive}
                                 replace={true}
                             >
                                 <View>
                                     <TouchableHighlight onPress={action.onPress} underlayColor={'rgba(0, 0, 0, .25)'}>
                                         <View style={this.styles.action}>
-                                            {action.icon && <Icon name={action.icon} style={this.styles.actionIcon}/>}
-                                            {action.text && <Label value={action.text} style={this.styles.actionText}/>}
+                                        {
+                                            action.image && (
+                                                <Image
+                                                    source={action.image}
+                                                    style={StyleSheet.flatten([
+                                                        this.styles.actionIcon,
+                                                        isActive && this.styles.active
+                                                    ])}
+                                                />
+                                            )
+                                        }
+                                        {
+                                            action.icon && (
+                                                <Icon
+                                                    name={action.icon}
+                                                    style={StyleSheet.flatten([
+                                                        this.styles.actionIcon,
+                                                        isActive && this.styles.active
+                                                    ])}
+                                                />
+                                            )
+                                        }
+                                        {action.text && <Label value={action.text} style={this.styles.actionText}/>}
                                         </View>
                                     </TouchableHighlight>
                                 </View>
@@ -147,6 +194,7 @@ export class Footer extends React.Component<FooterProps, {}> {
                             <View key={'a-' + index} style={this.styles.action}>
                                 <TouchableHighlight onPress={action.onPress} underlayColor={'rgba(0, 0, 0, .25)'}>
                                     <View style={this.styles.action}>
+                                        {action.image && <Image source={action.image} style={this.styles.actionIcon}/>}
                                         {action.icon && <Icon name={action.icon} style={this.styles.actionIcon}/>}
                                         {action.text && <Label value={action.text} style={this.styles.actionText}/>}
                                     </View>
