@@ -8,6 +8,8 @@ else
 BUILD_TYPE = demo
 endif
 
+VERSION ?= patch
+
 export PATH := ./node_modules/.bin:${PATH}
 
 package: build _package
@@ -40,7 +42,7 @@ _clean:
 	rm -rf ./package
 
 _deps:
-	yarn install
+	npm install
 
 _serve: _deps
 _serve:
@@ -54,14 +56,14 @@ _build: _deps
 	BUILD_TYPE=$(BUILD_TYPE) webpack --progress --profile $(PROD_FLAG)
 
 _copy_assets:
-	cp -rf ./assets/ ./src/ ./package.json yarn.lock .npmignore ./dist/
+	cp -rf ./assets/ ./src/ ./package.json .npmignore ./dist/
 
 _package: _deps _copy_assets
 	mkdir package
 	cd package; npm pack ../dist/
 
 _version: _deps
-	yarn version
+	npm version $(VERSION)
 
 _publish: _deps
 	npm publish ./dist/
