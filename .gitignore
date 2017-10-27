@@ -1,4 +1,23 @@
+<<<<<<< HEAD
 .idea/
 node_modules/
 dist/
 package/
+=======
+.idea
+.awcache/
+.DS_Store
+node_modules/
+dist/
+package/
+
+**/src/*.js
+**/src/**/*.js
+**/src/*.jsx
+**/src/**/*.jsx
+**/src/*.d.ts
+**/src/**/*.d.ts
+
+yarn-error.log
+stats.json
+>>>>>>> Fix build after repo split
