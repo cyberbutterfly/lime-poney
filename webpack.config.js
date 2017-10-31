@@ -22,7 +22,9 @@ module.exports = {
         libraryTarget: 'umd',
         publicPath: '/dist'
     },
-    externals: _.keys(packageInfo.dependencies),
+    externals: [
+        'plotly.js',
+    ],
     devtool: 'source-map',
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json'],
