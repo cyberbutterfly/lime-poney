@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 import {mount, render, shallow} from 'enzyme';
 import * as _ from 'lodash';
-import 'mocha';
+// import 'mocha';
 import * as React from 'react';
-import 'reflect-metadata';
+// import 'reflect-metadata';
 // import '@skatejs/ssr';
 import {CascadingList} from '../../src/cascading-list';
 // import {List, ListItem} from '../../src/list';
