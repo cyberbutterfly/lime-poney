@@ -8,7 +8,7 @@ import './CascadingList.scss';
 import {View, TouchableHighlight, StyleSheet, GestureResponderEvent} from 'react-native';
 
 export interface CascadingListValue {
-    label: string;
+    label?: string;
     value: any;
 }
 
@@ -21,12 +21,6 @@ export interface CascadingListProps {
 }
 
 export class CascadingList extends React.PureComponent<CascadingListProps, {}> {
-    public constructor(props: CascadingListProps) {
-        super(props);
-
-        this.renderCascadingListEntry = this.renderCascadingListEntry.bind(this);
-    }
-
     public render() {
         const {columns} = this.props;
         return (
@@ -36,7 +30,7 @@ export class CascadingList extends React.PureComponent<CascadingListProps, {}> {
         );
     }
 
-    private renderCascadingListEntry(entries: CascadingListValue[], columnIndex: number) {
+    private renderCascadingListEntry = (entries: CascadingListValue[], columnIndex: number) => {
         const {headers} = this.props;
         const title = headers && headers.length > columnIndex ? headers[columnIndex] : null;
         return (
@@ -56,7 +50,7 @@ export class CascadingList extends React.PureComponent<CascadingListProps, {}> {
         )
     }
 
-    private getRowRenderer(columnIndex: number): (entry: CascadingListValue, rowIndex: number) => JSX.Element {
+    private getRowRenderer = (columnIndex: number): (entry: CascadingListValue, rowIndex: number) => JSX.Element => {
         const isMultipleSelectable = this.isMultipleSelectionAllowedAtLevel(columnIndex);
         return (entry: CascadingListValue, rowIndex: number) => {
             const isSelected = this.isEntrySelectedAtLevel(entry.value, columnIndex);
