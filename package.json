@@ -7,6 +7,8 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/enzyme": "^3.1.3",
     "@types/jest": "^21.1.5",
     "@types/leaflet": "^1.2.0",
     "@types/lodash": "^4.14.80",
@@ -23,9 +25,11 @@
     "css-loader": "^0.28.7",
     "enzyme": "^3.1.1",
     "enzyme-adapter-react-16": "^1.0.4",
+    "enzyme-to-json": "^3.2.2",
     "fast-sass-loader": "^1.4.0",
     "file-loader": "^1.1.5",
     "jest": "^21.2.1",
+    "jest-serializer-enzyme": "^1.0.0",
     "node-sass": "^4.5.3",
     "resolve-url-loader": "^2.1.1",
     "source-map-loader": "^0.2.2",
@@ -62,7 +66,9 @@
       "!src/**/index.{ts,js}",
       "!**/*.d.ts"
     ],
-    "coverageReporters": [ "lcov" ],
+    "coverageReporters": [
+      "lcov"
+    ],
     "moduleDirectories": [
       "node_modules"
     ],
@@ -77,6 +83,10 @@
       "\\.(css|less|scss)$": "<rootDir>/_tests_/__mocks__/styleMock.js",
       "react-native": "<rootDir>/node_modules/react-native-web"
     },
+    "setupFiles": [
+      "<rootDir>/_tests_/_raf_shim_.ts",
+      "<rootDir>/_tests_/_setup_.ts"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>/_tests_/__mocks__/"
     ],

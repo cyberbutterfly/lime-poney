@@ -2,8 +2,6 @@ import * as React from 'react';
 import {shallow} from 'enzyme';
 import {View, TouchableHighlight, StyleSheet, GestureResponderEvent} from 'react-native';
 
-import '../_setup_';
-
 import {Label} from '../../src/label';
 
 it('should render value', () => {
