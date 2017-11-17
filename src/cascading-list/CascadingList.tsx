@@ -20,6 +20,7 @@ export interface CascadingListProps {
     multipleSelection?: boolean|'last';
 }
 
+// TODO: Split up this component (e.g. getRowRenderer, renderCascadingListEntry)
 export class CascadingList extends React.PureComponent<CascadingListProps, {}> {
     public render() {
         const {columns} = this.props;

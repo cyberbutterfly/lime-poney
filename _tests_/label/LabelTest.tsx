@@ -20,7 +20,5 @@ it('should render with passed styles', () => {
 
 	const output = shallow(<Label style={style.text} value="" />);
 
-	// Stylesheet creates and id as a number - if it's there, we have a styleshee
-	//	(this asserts there is one, regardless of what it is)
-	expect(typeof output.prop('style')).toEqual('number');
+	expect(output.prop('style')).not.toBeUndefined();
 });

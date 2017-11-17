@@ -14,17 +14,16 @@ describe('CascadingList', () => {
     const getContainerView = list => {
             const containerView = list.find('View').at(0);
             const parents = containerView.parents();
-            if (
-                parents.length > 0 // shallow
-                && parents.first().name() !== 'CascadingList' // mount
-            )
+            if (parents.length > 0 // shallow
+                && parents.first().name() !== 'CascadingList') { // mount
                 throw new Error('Couldn\'t find top Container View');
+            }
 
             return containerView;
         };
 
     describe('when given columns', () => {
-        it.only('should display one ist per column', () => {
+        it('should display one ist per column', () => {
 
             const cascadingList = shallow(
                 <CascadingList columns={columns} path={[]} onPathChange={_.noop}/>
@@ -67,7 +66,7 @@ describe('CascadingList', () => {
                 expect(callBackCalls).to.equal(1);
         });
 
-        it.only('should pass the new path to the callback', () => {
+        it('should pass the new path to the callback', () => {
                 let path: string[][] = [];
                 const cascadingList = mount(
                     <CascadingList
@@ -88,7 +87,7 @@ describe('CascadingList', () => {
                 columns.forEach(column => {
                     column.forEach(item => {
                         expected.push(item.value);
-                    })
+                    });
                 });
                 touchables.forEach((t, i) => {
                     const { onPress } = t.props();
