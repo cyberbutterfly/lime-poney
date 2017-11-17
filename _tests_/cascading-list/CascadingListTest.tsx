@@ -1,48 +1,51 @@
-import {expect} from 'chai';
-import {mount, render, shallow} from 'enzyme';
-import * as _ from 'lodash';
-import 'mocha';
 import * as React from 'react';
-import 'reflect-metadata';
-// import '@skatejs/ssr';
-import {CascadingList} from '../../src/cascading-list';
-// import {List, ListItem} from '../../src/list';
+import {expect} from 'chai';
+import {mount, shallow} from 'enzyme';
+import * as _ from 'lodash';
 
-// jest.mock('../../src/icon/SvgIconLoader', () => {});
+import {CascadingList} from '../../src/cascading-list';
 
 describe('CascadingList', () => {
+    const columns = [
+        [{ value: 'foo'}, { value: 'bar' }],
+        [{ value: 'baz' }],
+        [{ value: 'qux' }, { value: 'quux' }]
+    ];
+    const getContainerView = list => {
+            const containerView = list.find('View').at(0);
+            const parents = containerView.parents();
+            if (parents.length > 0 // shallow
+                && parents.first().name() !== 'CascadingList') { // mount
+                throw new Error('Couldn\'t find top Container View');
+            }
+
+            return containerView;
+        };
+
     describe('when given columns', () => {
         it('should display one ist per column', () => {
-            const columns = [
-                ['foo', 'bar'],
-                ['baz'],
-                ['qux', 'quux']
-            ];
 
             const cascadingList = shallow(
                 <CascadingList columns={columns} path={[]} onPathChange={_.noop}/>
             );
 
             expect(cascadingList).to.not.be.undefined;
-            expect(cascadingList.children()).to.have.length(3);
-            // expect(cascadingList.childAt(0).type()).to.equal(List);
-            expect(cascadingList.childAt(0).children()).to.have.length(2);
-            // expect(cascadingList.childAt(0).childAt(0).type()).to.equal(ListItem);
-            expect(cascadingList.childAt(0).childAt(0).prop('value')).to.equal('foo');
-            // expect(cascadingList.childAt(0).childAt(1).type()).to.equal(ListItem);
-            expect(cascadingList.childAt(0).childAt(1).prop('value')).to.equal('bar');
+
+            const containerView = getContainerView(cascadingList);
+
+            expect(containerView.children()).to.have.length(columns.length);
+
+            const firstColumn = containerView.childAt(0);
+            const firstList = firstColumn.find('List');
+
+            expect(firstList.prop('entries')).to.eql(columns[0]);
         });
     });
 
     describe('when selecting an entry', () => {
         it('should call the callback', () => {
-                const columns = [
-                    ['foo', 'bar'],
-                    ['baz'],
-                    ['qux', 'quux']
-                ];
                 let callBackCalls = 0;
-                const cascadingList = shallow(
+                const cascadingList = mount(
                     <CascadingList
                         columns={columns}
                         path={[]}
@@ -52,17 +55,18 @@ describe('CascadingList', () => {
                     />
                 );
 
-                cascadingList.childAt(0).childAt(0).simulate('select');
+                const containerView = getContainerView(cascadingList);
+
+                const firstText = containerView.find('List').first().find('TouchableHighlight').first();
+
+                const { onPress } = firstText.props();
+
+                onPress();
 
                 expect(callBackCalls).to.equal(1);
         });
 
         it('should pass the new path to the callback', () => {
-                const columns = [
-                    ['foo', 'bar'],
-                    ['baz'],
-                    ['qux', 'quux']
-                ];
                 let path: string[][] = [];
                 const cascadingList = mount(
                     <CascadingList
@@ -74,25 +78,22 @@ describe('CascadingList', () => {
                     />
                 );
 
-                cascadingList.childAt(0).childAt(0).childAt(0).simulate('click');
-                expect(path).to.eql([['foo']]);
-                cascadingList.setProps({path: path});
-                cascadingList.childAt(1).childAt(0).childAt(0).simulate('click');
-                expect(path).to.eql([['foo'], ['baz']]);
-                cascadingList.setProps({path: path});
-                cascadingList.childAt(2).childAt(1).childAt(0).simulate('click');
-                expect(path).to.eql([['foo'], ['baz'], ['quux']]);
-                cascadingList.setProps({path: path});
-                cascadingList.childAt(2).childAt(0).childAt(0).simulate('click');
-                expect(path).to.eql([['foo'], ['baz'], ['quux', 'qux']]);
-                cascadingList.setProps({path: path});
-                cascadingList.childAt(2).childAt(1).childAt(0).simulate('click');
-                expect(path).to.eql([['foo'], ['baz'], ['qux']]);
-                cascadingList.setProps({path: path});
-                cascadingList.childAt(0).childAt(1).childAt(0).simulate('click');
-                expect(path).to.eql([['bar']]);
-                cascadingList.setProps({path: path});
+                const containerView = getContainerView(cascadingList);
 
+                const touchables = containerView.find('List TouchableHighlight');
+
+                // we're expecting the column entries to all be in the texts, loop through click and assert
+                const expected = [];
+                columns.forEach(column => {
+                    column.forEach(item => {
+                        expected.push(item.value);
+                    });
+                });
+                touchables.forEach((t, i) => {
+                    const { onPress } = t.props();
+                    onPress();
+                    expect(path).to.eql([[expected[i]]])
+                });
         });
     });
 });
