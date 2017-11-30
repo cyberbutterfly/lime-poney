@@ -9,7 +9,4 @@ export * from './header';
 export * from './icon';
 export * from './label';
 export * from './list';
-export * from './modal';
-export * from './page';
-export * from './progress';
 export * from './theme';
