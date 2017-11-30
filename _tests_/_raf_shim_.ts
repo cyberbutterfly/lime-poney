@@ -4,3 +4,4 @@ const g:any = global;
 g.requestAnimationFrame = (callback) => {
     setTimeout(callback, 0);
 };
+g.cancelAnimationFrame = (_) => {};
