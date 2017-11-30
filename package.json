@@ -38,6 +38,7 @@
     "ts-jest": "^21.0.0",
     "ts-loader": "^2.3.7",
     "typescript": "^2.6.1",
+    "url-loader": "^0.6.2",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.9.0"
   },
