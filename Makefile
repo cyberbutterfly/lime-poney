@@ -56,11 +56,11 @@ _build: _deps
 	BUILD_TYPE=$(BUILD_TYPE) webpack --progress --profile $(PROD_FLAG)
 
 _copy_assets:
-	cp -rf ./assets/ ./src/ ./package.json .npmignore ./dist/
+	cp -rf ./assets ./src ./package.json .npmignore ./dist/
 
 _package: _deps _copy_assets
 	mkdir package
-	cd package; npm pack ../dist/
+	cd package && npm pack ../dist/
 
 _version: _deps
 	npm version $(VERSION)
