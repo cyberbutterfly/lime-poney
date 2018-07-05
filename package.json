@@ -1,8 +1,8 @@
 {
-  "name": "@2pg/lime-poney",
+  "name": "@highguru/lime-poney",
   "version": "1.0.3",
-  "author": "Pierre Chausalet <pierre.chaussalet@twoporeguys.com>",
-  "description": "2PG react components library",
+  "author": "Pierre Chausalet <goblindaydream@highguru.org>",
+  "description": "Highguru react components library",
   "homepage": ".",
   "main": "./index.js",
   "types": "./index.d.ts",
